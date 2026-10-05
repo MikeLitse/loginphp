@@ -31,15 +31,20 @@
                 }
 
                 if($rows["0"]["pass"]===$password){
-                    echo "<script>alert('Youre logged in!');</script>";
+
+                    session_start();
+                    //variables for session
+                    $_SESSION["username"] = $username;
+                    $_SESSION["password"] = $password;
+                    //head to session
                     header("Location: homepage.php");
+
+                    exit;
+
                 }else{
                     echo "<script>alert('Wrong password!');</script>";
                 }
 
-
-                
-            
             $stmt->closeCursor();
             }catch (PDOException $e) {
                 echo "Error: Returning users" . $e->getMessage();
