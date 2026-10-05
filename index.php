@@ -4,7 +4,6 @@
 ?>
 
 <?php 
-
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username= $_POST["username"];
         $password= $_POST["password"];
@@ -23,11 +22,20 @@
 
                 $rows = $stmt->fetchAll();
 
-            if(empty($rows)){
-                echo "<script>alert('User not found!');</script>";
-            }else{
-                echo "<script>alert('User found!');</script>";
-            }
+                if(empty($rows)){
+                    //echo "<script>alert('User not found!');</script>";
+                }else{
+                    //echo "<script>alert('User found!');</script>";
+                }
+
+                if($rows["0"]["pass"]===$password){
+                    echo "<script>alert('Right password!');</script>";
+                }else{
+                    echo "<script>alert('Wrong password!');</script>";
+                }
+
+
+                
             /*
             foreach($rows as $row){
                 echo "User:" . $row["username"] . " Password:" . $row["pass"] . " Email:" . $row["email"] . "<br>";
