@@ -23,9 +23,7 @@
                 $rows = $stmt->fetchAll();
 
                 if(empty($rows)){
-                    //echo "<script>alert('User not found!');</script>";
-                }else{
-                    //echo "<script>alert('User found!');</script>";
+                    echo "<script>alert('User not found!');</script>";
                 }
 
                 if($rows["0"]["pass"]===$password){
