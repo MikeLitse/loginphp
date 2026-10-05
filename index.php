@@ -1,6 +1,7 @@
 <?php 
     include("database.php");
     $found = null;
+    session_destroy();
 ?>
 
 <?php 
