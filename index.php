@@ -5,11 +5,15 @@
 
 <?php 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $username= $_POST["username"];
-        $password= $_POST["password"];
+
+        $username= filter_input(INPUT_POST,"username",
+                                FILTER_SANITIZE_SPECIAL_CHARS);
+        $password= filter_input(INPUT_POST,"password",
+                                FILTER_SANITIZE_SPECIAL_CHARS);
 
         if(empty($username) || empty($password)){
             echo "Please enter all the required";
+            echo "<script>alert('Didnt go in!');</script>";
         }else{
             try{
                 $pdo = new PDO($dsn, $db_user, $db_pass, $options);
@@ -27,60 +31,22 @@
                 }
 
                 if($rows["0"]["pass"]===$password){
-                    echo "<script>alert('Right password!');</script>";
+                    echo "<script>alert('Youre logged in!');</script>";
+                    header("Location: homepage.php");
                 }else{
                     echo "<script>alert('Wrong password!');</script>";
                 }
 
 
                 
-            /*
-            foreach($rows as $row){
-                echo "User:" . $row["username"] . " Password:" . $row["pass"] . " Email:" . $row["email"] . "<br>";
-            }
-            */
+            
             $stmt->closeCursor();
             }catch (PDOException $e) {
                 echo "Error: Returning users" . $e->getMessage();
             }
         }
     }
-    /*get_users()
-    try {
-        $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-
-        $stmt = $pdo->query("CALL get_users()");
-
-        $rows = $stmt->fetchAll();
-
-        $stmt->closeCursor();
-
-    }catch (PDOException $e) {
-        echo "Error: Returning users" . $e->getMessage();
-    }
-    */
-    /*insert_user()
-    try{
-        $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-        $username="Giwrgos";
-        $password= "GiwrgosLitse";
-        $email="giwrgos@litse.com";
-
-        $stmt = $pdo->prepare("CALL insert_user(:username,:password,:email)");
-
-        $stmt->execute([
-            ':username' => $username,
-            ':password'=> $password,
-            ':email' => $email
-        ]);
-
-        $stmt->closeCursor();
-        echo "User added";
-
-    }catch(PDOException $e) {
-        echo "Error Inserting User " . $e->getMessage();
-    }
-    */
+    
 ?>
 
 <!DOCTYPE html>
