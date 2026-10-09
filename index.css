@@ -2,8 +2,7 @@
   font-family: Arial, Helvetica, sans-serif ;
 }
 
-.header{
-  
+.header{  
   background-color: hsl(160, 100%, 85%);
   border: 1px solid hsl(0, 0%, 40%);
   border-radius: 10px;
@@ -30,17 +29,22 @@ body{
   border-radius: 10px;
   box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
   padding: 10px;
-  margin: 5px;
+  margin: 16px;
   align-items: center;
   justify-content: center;
   display: inline-flex;
   width: 50px;
   height: 50px;
 
+  font-size: 16px;
+  font-weight: bold;
+
+  width: 80px;
+  height: 40px;
+
 }
 
-.div{
-  
+.div{  
   border-radius: 10px;
   padding: 10px;
 }
@@ -51,4 +55,14 @@ body{
 
 a {
   text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+
+  width: 80px;
+  height: 40px;
+}
+
+h1{
+    text-decoration: underline;
+    text-underline-offset: 8px;
 }

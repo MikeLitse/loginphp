@@ -12,8 +12,7 @@
                                 FILTER_SANITIZE_SPECIAL_CHARS);
 
         if(empty($username) || empty($password)){
-            echo "Please enter all the required";
-            echo "<script>alert('Didnt go in!');</script>";
+            echo "<script>alert('Please enter all the required!');</script>";
         }else{
             try{
                 $pdo = new PDO($dsn, $db_user, $db_pass, $options);
@@ -75,7 +74,7 @@
             <input type="password" name="password">
         </div>
         <div>
-            <input type="submit" value="login" name="submit">
+            <input type="submit" value="LOGIN" name="submit" class="btn">
         </div>
         
         <h3>Dont have an account? Register here:</h3>

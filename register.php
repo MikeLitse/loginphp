@@ -83,7 +83,7 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="header">
         <h1>Register</h1>
         <div>
             <h2>Username:</h2>
@@ -98,7 +98,7 @@
             <input type="email" name="email">
         </div>
         <div>
-            <input type="submit" value="Register" name="submit">
+            <input type="submit" value="Register" name="submit" class="btn">
         </div>
         
         <h3>Already have an account? Login here:</h3>
