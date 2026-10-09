@@ -5,7 +5,7 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username = $_POST["username"];
-        $password = strtolower($_POST["password"]);
+        $password = strtolower($_POST["password"]); //all the passwords to lowercase
         $email = $_POST["email"];
 
         if(empty($username) || empty($password) || empty($email)){
@@ -80,6 +80,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
