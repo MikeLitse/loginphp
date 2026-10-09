@@ -1,11 +1,6 @@
 <?php
-
+    include("database.php");
     session_start();
-
-    echo "Username: " . $_SESSION['username'] . "<br>";
-    echo "Password: " . $_SESSION['password'] . "<br>";
-    echo "". $_SESSION["msg"] . "<br>";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +11,40 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <form>
-        <h>Hello this is the home page</h>
+    <form class="header">
+        <h2>Hello
+            <?php echo htmlspecialchars($_SESSION["username"])?>    
+            this is the home page
+        </h2>
+        <h2>
+            <?php echo htmlspecialchars($_SESSION["msg"])?>
+        </h2>
+        <a href="index.php">Logout</a>
     </form>
-    <a href="index.php">Logout</a>
+    <div>
+        <?php
+            try{
+                $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+
+                $stmt = $pdo->prepare("CALL get_premier_league()");
+
+                $stmt->execute();
+
+                $rows = $stmt->fetchAll();
+
+                $i=0;
+
+                foreach($rows as $row){
+                    echo "<p>". $i+1 . " " . $rows[$i]["teamname"] . "</p>";
+                    $i++;
+                }
+
+                $stmt->closeCursor();
+
+            }catch (PDOException $e) {
+                echo "Error: Returning teams" . $e->getMessage();
+            }
+        ?>
+    </div>
 </body>
 </html>
