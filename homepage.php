@@ -4,6 +4,7 @@
 
     echo "Username: " . $_SESSION['username'] . "<br>";
     echo "Password: " . $_SESSION['password'] . "<br>";
+    echo "". $_SESSION["msg"] . "<br>";
 
 ?>
 <!DOCTYPE html>

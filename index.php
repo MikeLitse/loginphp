@@ -1,7 +1,6 @@
 <?php 
     include("database.php");
     $found = null;
-    
 ?>
 
 <?php 
@@ -29,21 +28,22 @@
 
                 if(empty($rows)){
                     echo "<script>alert('User not found!');</script>";
-                }
-
-                if($rows["0"]["pass"]===$password){
-
-                    session_start();
-                    //variables for session
-                    $_SESSION["username"] = $username;
-                    $_SESSION["password"] = $password;
-                    //head to session
-                    header("Location: homepage.php");
-
-                    exit;
-
                 }else{
-                    echo "<script>alert('Wrong password!');</script>";
+                    if(password_verify($password, $rows["0"]["pass"])){
+
+                        session_start();
+                        //variables for session
+                        $_SESSION["msg"]=$logmsg;
+                        $_SESSION["username"] = $username;
+                        $_SESSION["password"] = $password;
+                        //head to session
+                        header("Location: homepage.php");
+
+                        exit;
+
+                    }else{
+                        echo "<script>alert('Wrong password!');</script>";
+                    }
                 }
 
             $stmt->closeCursor();
@@ -77,6 +77,8 @@
             <input type="submit" value="login" name="submit">
         </div>
         
+        <h3>Dont have an account? Register here:</h3>
+        <a href="register.php">Register</a>
     </form>
 </body>
 </html>
