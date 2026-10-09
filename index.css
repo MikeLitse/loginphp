@@ -2,7 +2,7 @@
   font-family: Arial, Helvetica, sans-serif ;
 }
 
-.header{  
+.card{  
   background-color: hsl(160, 100%, 85%);
   border: 1px solid hsl(0, 0%, 40%);
   border-radius: 10px;
@@ -16,11 +16,8 @@
 }
 
 body{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: hsl(180, 100%, 90%);
+  
 }
 
 .btn{
@@ -44,15 +41,6 @@ body{
 
 }
 
-.div{  
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.icons{
-   font-size: 1px;
-}
-
 a {
   text-decoration: none;
   font-size: 24px;
@@ -60,6 +48,7 @@ a {
 
   width: 80px;
   height: 40px;
+  color: hsl(270, 90%, 40%);
 }
 
 h1{
@@ -105,6 +94,7 @@ h1{
     border-radius: 10px;
     padding: 10px;
     list-style: none;
+    color: blueviolet;
 }
 
 .drop:hover .drop-down{
@@ -113,5 +103,5 @@ h1{
 
 .nav-link:hover{
     background-color: hsl(185, 45%, 76%);
-    color: aliceblue;
+    color:  hsl(270, 90%, 40%);
 }

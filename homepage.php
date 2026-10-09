@@ -10,32 +10,32 @@
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
 </head>
+
+<div class= "divcontainer">
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li class="nav-link">
+                <a href="homepage.php">Home</a>
+            </li>
+            <li class="nav-link drop">
+                <a href="#">Leagues</a>
+                <ul class="drop-down">
+                    <li><a href="#"></a>Premier League</li>
+                    <li><a href="#"></a>La Liga</li>
+                </ul>
+            </li>
+            <li class="nav-link">
+                <a href="#">About</a>
+            </li>
+            <li class="nav-link">
+                <a href="#">Contact</a>
+            </li>    
+        </ul>
+    </nav>
+</div>
+
 <body>
-    <div class= "divcontainer">
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li class="nav-link">
-                    <a href="homepage.php">Home</a>
-                </li>
-                <li class="nav-link drop">
-                    <a href="#">Leagues</a>
-                    <ul class="drop-down">
-                        <li><a href="#"></a>Premier League</li>
-                        <li><a href="#"></a>La Liga</li>
-                    </ul>
-                </li>
-                <li class="nav-link">
-                    <a href="#">About</a>
-                </li>
-                <li class="nav-link">
-                    <a href="#">Contact</a>
-                </li>
-            
-            </ul>
-        </nav>
-    </div>
-    
-    <form class="header">
+    <form class="card">
         <h2>Hello
             <?php echo htmlspecialchars($_SESSION["username"])?>    
             this is the home page
@@ -45,7 +45,7 @@
         </h2>
         <a href="index.php">Logout</a>
     </form>
-    <div class="header">
+    <div>
         <?php
             try{
                 $pdo = new PDO($dsn, $db_user, $db_pass, $options);
