@@ -66,3 +66,52 @@ h1{
     text-decoration: underline;
     text-underline-offset: 8px;
 }
+
+.divcontainer{
+    display: flex;
+    font-size: 14px;
+    height: 100px;
+}
+
+.navbar{
+    margin: auto;
+    padding: 2px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
+}
+
+.nav-links{
+    display: flex;
+    gap: 24px;
+    padding: 14px;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-link{
+    list-style: none;
+    height: 100%;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.drop-down{
+    position: absolute;
+    display: none;
+    background: hsl(208, 68%, 73%);
+    box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    list-style: none;
+}
+
+.drop:hover .drop-down{
+    display: block;
+}
+
+.nav-link:hover{
+    background-color: hsl(185, 45%, 76%);
+    color: aliceblue;
+}
