@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="index.css">
 </head>
 
-
-
 <body>
 
     <div class= "divcontainer">
@@ -24,7 +22,7 @@
                 <li class="nav-link drop">
                     <a href="#">Leagues</a>
                     <ul class="drop-down">
-                        <li><a href="#"></a>Premier League</li>
+                        <li><a href="premierleague.php"></a>Premier League</li>
                         <li><a href="#"></a>La Liga</li>
                     </ul>
                 </li>
@@ -48,6 +46,7 @@
         </h2>
         <a href="index.php">Logout</a>
     </div>
+
     <div>
         <?php
             try{

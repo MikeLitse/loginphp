@@ -61,8 +61,8 @@
     <title>Login</title>
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
-    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="header">
+<body class="bodylogin">
+    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="card">
         <h1>Login</h1>
         <div>
             <h2>Username:</h2>

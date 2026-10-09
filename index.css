@@ -1,57 +1,66 @@
 * {
-  font-family: Arial, Helvetica, sans-serif ;
+    font-family: Arial, Helvetica, sans-serif ;
 }
 
 .card{  
-  background-color: hsl(160, 100%, 85%);
-  border: 1px solid hsl(0, 0%, 40%);
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
-  padding: 10px;
-  margin: 10px;
-  text-align: center;
-  display: inline-block;
+    background-color: hsl(160, 100%, 85%);
+    border: 1px solid hsl(0, 0%, 40%);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    display: inline-block;
 
 }
 
 body{
-  background-color: hsl(180, 100%, 90%);
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    background-color: hsl(180, 100%, 90%);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bodylogin{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    justify-content: center;
+    text-align: center;
 }
 
 .btn{
-  background-color: hsl(208, 100%, 90%);
-  border: 0px solid hsl(0, 0%, 40%);
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
-  padding: 10px;
-  margin: 16px;
-  align-items: center;
-  justify-content: center;
-  display: inline-flex;
-  width: 50px;
-  height: 50px;
+    background-color: hsl(208, 100%, 90%);
+    border: 0px solid hsl(0, 0%, 40%);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsl(0, 0%, 0%, 0.1);
+    padding: 10px;
+    margin: 16px;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+    width: 50px;
+    height: 50px;
 
-  font-size: 16px;
-  font-weight: bold;
+    font-size: 16px;
+    font-weight: bold;
 
-  width: 80px;
-  height: 40px;
+    width: 80px;
+    height: 40px;
 
 }
 
 a {
-  text-decoration: none;
-  font-size: 24px;
-  font-weight: bold;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
 
-  width: 80px;
-  height: 40px;
-  color: hsl(270, 90%, 40%);
+    width: 80px;
+    height: 40px;
+    color: hsl(270, 90%, 40%);
 }
 
 h1{
