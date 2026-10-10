@@ -24,7 +24,6 @@
             }
         }
 
-        // Αφαιρούμε το 'TEAMS' από τις στήλες ώστε να μείνουν μόνο οι αντίπαλες ομάδες
         $opponentColumns = array_filter($columns, fn($col) => $col !== 'TEAMS');
 
         $matchday = 1;
@@ -34,7 +33,7 @@
             echo "<h3>Home: " . htmlspecialchars($homeTeam) . "</h3>";
 
             foreach ($opponentColumns as $awayTeam) {
-                // Αν δεν είναι το διαγώνιο κελί (ίδια ομάδα)
+                
                 if ($homeTeam !== $awayTeam) {
                     echo $matchday . ": " . $homeTeam . " vs " . $awayTeam . "<br>";
                     $matchday++;
