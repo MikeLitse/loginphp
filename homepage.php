@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
     <div class= "divcontainer">
         <nav class="navbar">
             <ul class="nav-links">

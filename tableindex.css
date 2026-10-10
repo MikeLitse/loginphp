@@ -1,3 +1,8 @@
 .tablebody{
     text-align: left;
 }
+
+.tablerow:hover{
+    background-color:hsl(0, 100%, 70%);
+    cursor: pointer;
+}

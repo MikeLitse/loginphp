@@ -1,5 +1,11 @@
 <?php
     include("database.php");
+
+    $selectedteam='';
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["selected_team"])) {
+        $selectedteam = $_POST["selected_team"];
+    }
+    echo $selectedteam;
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +18,7 @@
     <link rel="stylesheet" href="tableindex.css">
 
 </head>
+
 <body>
     <div class= "divcontainer">
         <nav class="navbar">
@@ -35,54 +42,66 @@
             </ul>
         </nav>
     </div>
-    <div class="card">
-        <?php
-            try{
-                $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-                $stmt = $pdo->prepare("CALL get_premier_league()");
-                $stmt->execute();
+    
+    <form method="post" action="">
+        <div class="card">
+            <?php
+                try{
+                    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+                    $stmt = $pdo->prepare("CALL get_premier_league()");
+                    $stmt->execute();
 
-                // Fetch strictly associative array to avoid numeric duplicate columns
-                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    // Fetch strictly associative array to avoid numeric duplicate columns
+                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                if (!empty($rows)) {
-                    $columns = array_keys($rows[0]);
+                    if (!empty($rows)) {
+                        $columns = array_keys($rows[0]);
 
-                    echo '<table class="tablebody">';
+                        echo '<table class="tablebody">';
                     
-                    // Table Header
-                    echo '<thead><tr>';
-                    echo '<th>#</th>'; // Position column
-                    foreach ($columns as $col) {
-                        echo '<th>' . htmlspecialchars(ucwords(str_replace('_', ' ', $col))) . '</th>';
-                    }
-                    echo '</tr></thead>';
-
-                    // Table Body
-                    echo '<tbody>';
-                    $pos = 1;
-                    foreach ($rows as $row) {
-                        echo '<tr>';
-                        echo '<td class="pos">' . $pos++ . '</td>';
+                        //Table Header
+                        echo '<thead><tr>';
+                        echo '<th>#</th>'; // Position column
                         foreach ($columns as $col) {
-                            $alignClass = ($col === 'teamname') ? 'team-cell' : 'stat-cell';
-                            echo '<td class="' . $alignClass . '">' . htmlspecialchars($row[$col]) . '</td>';
+                            echo '<th>' . htmlspecialchars(ucwords(str_replace('_', ' ', $col))) . '</th>';
                         }
-                        echo '</tr>';
+                        echo '</tr></thead>';
+
+                        //Table Body
+                        echo '<tbody>';
+                        $pos = 1;
+                        foreach ($rows as $row) {
+                            echo '<tr class="tablerow" data-teamname="' . htmlspecialchars($row["teamname"]) . '">';
+                            echo '<td name=${pos}>' . $pos++ . '</td>';
+                            foreach ($columns as $col) {
+                                $alignClass = ($col === 'teamname') ? 'team-cell' : 'stat-cell';
+                                echo '<td class="' . $alignClass  . ' ">' . htmlspecialchars($row[$col]) . '</td>';
+                            }
+                            echo '</tr>';
+                        }
+                        echo '</tbody>';
+
+                        echo '</table>';
                     }
-                    echo '</tbody>';
 
-                    echo '</table>';
-                }
+                    $stmt->closeCursor();
 
-                $stmt->closeCursor();
+                }catch (PDOException $e) {
+                    echo "Error: Returning teams" . $e->getMessage();
+                }            
+            ?>
+        </div>
+    </form>
+    <button name="selectteam">Select team</button>
 
-            }catch (PDOException $e) {
-                echo "Error: Returning teams" . $e->getMessage();
-            }
-            
-        ?>
-    </div>
+    <script>
+        document.querySelectorAll('.tablerow').forEach(row => {
+            row.addEventListener('click', () => {
+                const teamName= row.dataset.teamname;
+                alert("Selected Team: " + teamName);
+            })
+        })
+    </script>
     
 </body>
 </html>
