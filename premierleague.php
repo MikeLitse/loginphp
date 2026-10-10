@@ -1,11 +1,35 @@
 <?php
     include("database.php");
+    session_start();
+
+    if (!isset($_SESSION["username"])){
+        die("user is not logged in");
+    }
 
     $selectedteam='';
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["selected_team"])) {
         $selectedteam = $_POST["selected_team"];
+        $username = $_SESSION["username"];
+
+        try{
+
+            $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+
+            $stmt = $pdo->prepare("UPDATE users SET team=:selectedteam WHERE username=:username");
+
+            $stmt->execute([
+                "selectedteam"=>$selectedteam,
+                "username"=>$username
+            ]);
+
+            $stmt->closeCursor();
+
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
-    echo $selectedteam;
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +68,7 @@
     </div>
     
     <form method="post" action="">
+        <input type="hidden" name="selected_team" id="selected_team_input">
         <div class="card">
             <?php
                 try{
@@ -59,7 +84,6 @@
 
                         echo '<table class="tablebody">';
                     
-                        //Table Header
                         echo '<thead><tr>';
                         echo '<th>#</th>'; // Position column
                         foreach ($columns as $col) {
@@ -67,12 +91,15 @@
                         }
                         echo '</tr></thead>';
 
-                        //Table Body
                         echo '<tbody>';
                         $pos = 1;
                         foreach ($rows as $row) {
-                            echo '<tr class="tablerow" data-teamname="' . htmlspecialchars($row["teamname"]) . '">';
+                            $isSelected = ($selectedteam === $row["teamname"]) ? ' rowsel' : '';
+
+                            echo '<tr class="tablerow' . $isSelected . '" data-teamname="' . htmlspecialchars($row["teamname"]) . '">';
+
                             echo '<td name=${pos}>' . $pos++ . '</td>';
+
                             foreach ($columns as $col) {
                                 $alignClass = ($col === 'teamname') ? 'team-cell' : 'stat-cell';
                                 echo '<td class="' . $alignClass  . ' ">' . htmlspecialchars($row[$col]) . '</td>';
@@ -91,16 +118,27 @@
                 }            
             ?>
         </div>
+        <div>
+            <button type ="submit" name="selectteam">Select team</button>
+        </div>
+        
     </form>
-    <button name="selectteam">Select team</button>
-
+    
     <script>
+
+        const inputField = document.getElementById('selected_team_input');
+
         document.querySelectorAll('.tablerow').forEach(row => {
             row.addEventListener('click', () => {
-                const teamName= row.dataset.teamname;
-                alert("Selected Team: " + teamName);
-            })
-        })
+                
+                document.querySelectorAll('.tablerow').forEach(r => r.classList.remove('rowsel'));
+
+                row.classList.add('rowsel');
+
+                const teamName = row.dataset.teamname;
+                inputField.value = teamName;
+            });
+        });
     </script>
     
 </body>

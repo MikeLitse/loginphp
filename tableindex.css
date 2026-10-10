@@ -6,3 +6,7 @@
     background-color:hsl(0, 100%, 70%);
     cursor: pointer;
 }
+
+.rowsel{
+    background-color: hsl(0, 100%, 50%);
+}
