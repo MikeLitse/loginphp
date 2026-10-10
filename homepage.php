@@ -22,8 +22,8 @@
                 <li class="nav-link drop">
                     <a href="#">Leagues</a>
                     <ul class="drop-down">
-                        <li><a href="premierleague.php"></a>Premier League</li>
-                        <li><a href="#"></a>La Liga</li>
+                        <li><a href="premierleague.php">Premier League</a></li>
+                        <li><a href="#">La Liga</a></li>
                     </ul>
                 </li>
                 <li class="nav-link">
@@ -60,10 +60,10 @@
 
                 $i=0;
 
-                /*foreach($rows as $row){
+                foreach($rows as $row){
                     echo "<p>". $i+1 . " " . $rows[$i]["teamname"] . "</p>";
                     $i++;
-                }*/
+                }
 
                 $stmt->closeCursor();
 

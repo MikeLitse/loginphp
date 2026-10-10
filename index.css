@@ -23,6 +23,15 @@ body{
     gap: 20px;
 }
 
+.leaguecontainer{
+    background-color: hsl(180, 100%, 90%);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .bodylogin{
     min-height: 100vh;
     display: flex;
@@ -53,7 +62,7 @@ body{
 
 }
 
-a {
+a{
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
@@ -116,4 +125,14 @@ h1{
 .nav-link:hover{
     background-color: hsl(185, 45%, 76%);
     color:  hsl(270, 90%, 40%);
+}
+
+.drop-down a{
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+
+    width: 80px;
+    height: 40px;
+    color: hsl(270, 90%, 40%);
 }
