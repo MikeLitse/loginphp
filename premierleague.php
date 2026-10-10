@@ -2,8 +2,8 @@
     include("database.php");
     include("mechanic.php");
 
-    echo calcResult();
-    
+    //echo calcResult();
+
     session_start();
 
     if (!isset($_SESSION["username"])){

@@ -53,5 +53,5 @@
         }
     }
 
-    echo calcResult();
+    //echo calcResult();
 ?>
