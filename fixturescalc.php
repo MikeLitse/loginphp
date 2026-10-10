@@ -12,37 +12,15 @@
 
         $columns = array_keys($rows[0]);
 
-        //print row first then the columns
-        $i=1;
-        foreach ($rows as $row) {
-            if($row["TEAMS"]!=$columns[$i]){
-                echo"Matchday: " . $i;
-            }
-            $i++;
-            foreach ($columns as $column) {
-                
-            }
-        }
+        $totalTeams= count($rows); //total teams
+        $totalRounds=$totalTeams-1; //rounds per half 
 
-        $opponentColumns = array_filter($columns, fn($col) => $col !== 'TEAMS');
+        $matchesPerRound=$totalTeams/2;
 
-        $matchday = 1;
+        $season= []; //initialize array;
 
-        foreach ($rows as $row) {
-            $homeTeam = $row['TEAMS'];
-            echo "<h3>Home: " . htmlspecialchars($homeTeam) . "</h3>";
-
-            foreach ($opponentColumns as $awayTeam) {
-                
-                if ($homeTeam !== $awayTeam) {
-                    echo $matchday . ": " . $homeTeam . " vs " . $awayTeam . "<br>";
-                    $matchday++;
-                }
-            }
-            echo "<hr>";
-        }
-
-        $stmt ->closeCursor();
+        echo "Total teams " . $totalTeams ."";
+        
 
     }catch(PDOException $e){
         echo $e->getMessage();
