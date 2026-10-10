@@ -1,5 +1,9 @@
 <?php
     include("database.php");
+    include("mechanic.php");
+
+    echo calcResult();
+    
     session_start();
 
     if (!isset($_SESSION["username"])){
@@ -109,7 +113,7 @@
                         echo '<table class="tablebody">';
                     
                         echo '<thead><tr>';
-                        echo '<th>#</th>'; // Position column
+                        echo '<th>#</th>';
                         foreach ($columns as $col) {
                             echo '<th>' . htmlspecialchars(ucwords(str_replace('_', ' ', $col))) . '</th>';
                         }
