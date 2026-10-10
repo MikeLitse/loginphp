@@ -4,13 +4,37 @@
 
     if (!isset($_SESSION["username"])){
         die("user is not logged in");
+    }else{
+        $username = $_SESSION["username"];
     }
 
-    $selectedteam='';
+    try{
+
+        $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+
+        $stmt = $pdo->prepare("CALL get_user_by_name(:username)");
+
+        $stmt->execute([
+            "username"=> $username
+        ]);
+
+        $rows= $stmt->fetchAll();
+
+        if(!empty($rows)){
+            $selectedteam = $rows[0]["team"];
+        }
+
+        $stmt->closeCursor();
+
+    }catch(PDOException $e){
+        die("". $e->getMessage());
+    }
+
+
+    //$selectedteam='';
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["selected_team"])) {
         $selectedteam = $_POST["selected_team"];
-        $username = $_SESSION["username"];
-
+        
         try{
 
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
@@ -77,7 +101,7 @@
                     $stmt->execute();
 
                     // Fetch strictly associative array to avoid numeric duplicate columns
-                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $rows = $stmt->fetchAll();
 
                     if (!empty($rows)) {
                         $columns = array_keys($rows[0]);
@@ -94,6 +118,8 @@
                         echo '<tbody>';
                         $pos = 1;
                         foreach ($rows as $row) {
+                            //this is an if case that appends $isSelected= rowsel if the row
+                            //macthes the selected team name else it appends null
                             $isSelected = ($selectedteam === $row["teamname"]) ? ' rowsel' : '';
 
                             echo '<tr class="tablerow' . $isSelected . '" data-teamname="' . htmlspecialchars($row["teamname"]) . '">';
@@ -125,7 +151,7 @@
     </form>
     
     <script>
-
+        //This is for the page on browser side (doesnt recall the fav team)
         const inputField = document.getElementById('selected_team_input');
 
         document.querySelectorAll('.tablerow').forEach(row => {

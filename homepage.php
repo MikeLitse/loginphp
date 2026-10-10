@@ -46,30 +46,5 @@
         <a href="index.php">Logout</a>
     </div>
 
-    <div>
-        <?php
-            try{
-                $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-
-                $stmt = $pdo->prepare("CALL get_premier_league()");
-
-                $stmt->execute();
-
-                $rows = $stmt->fetchAll();
-
-                $i=0;
-
-                foreach($rows as $row){
-                    echo "<p>". $i+1 . " " . $rows[$i]["teamname"] . "</p>";
-                    $i++;
-                }
-
-                $stmt->closeCursor();
-
-            }catch (PDOException $e) {
-                echo "Error: Returning teams" . $e->getMessage();
-            }
-        ?>
-    </div>
 </body>
 </html>

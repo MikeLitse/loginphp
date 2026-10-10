@@ -2,13 +2,16 @@
     include("database.php");
     session_start();
 
-    $forma=rand(50,100)/100;
+    $matchesa = 2;
+    $matchesb = 2; 
+
+    $forma=rand(50+$matchesa*5,100)/100;
     echo "Forma: " . $forma . "<br>";
     $oddsa= rand(1,100);
     echo "Oddsa: " . $oddsa . "<br>";
     $finalforma=round($forma*$oddsa);
 
-    $formb=rand(50,100)/100;
+    $formb=rand(50+$matchesb*5,100)/100;
     echo "Formb: ". $formb . "<br>";
     $oddsb= 100-$oddsa;
     echo "Oddsb: " . $oddsb . "<br>";
