@@ -1,8 +1,7 @@
 <?php
-    include("database.php");
+    include("database.php"); //these get executed no matter what when you enter or refresh the page
     include("mechanic.php");
-
-    //echo calcResult();
+    //include("matchresults.php");
 
     session_start();
 
@@ -10,14 +9,11 @@
     if(!isset($_SESSION["season"])){
         $_SESSION["season"]= getFixtures(); //they get a value only one time
     }
-    if(!isset($_SESSION["season"])){
-        $_SESSION["season"]= getFixtures(); //they get a value only one time
+    if(!isset($_SESSION["matchday"])){
+        $_SESSION["matchday"]= 1; //they get a value only one time
     }
     
-    //$_SESSION["matchday"] = 1;
-    
-
-    if (!isset($_SESSION["username"])){
+    if (!isset($_SESSION["username"])){ //they get a value only one time
         die("user is not logged in");
     }else{
         $username = $_SESSION["username"];
@@ -45,8 +41,6 @@
         die("". $e->getMessage());
     }
 
-
-    //$selectedteam='';
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["selected_team"])) {
         $selectedteam = $_POST["selected_team"];
         
@@ -68,7 +62,14 @@
         }
     }
 
-    
+    if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["next"])) {
+        require_once("matchresults.php");
+        getMatchResults();
+
+        header("Location: " . $_SERVER['PHP_SELF']); //redirect to the same page
+        exit();
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -106,11 +107,12 @@
         </nav>
     </div>
     
-    <form method="post" action="">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>">
         <input type="hidden" name="selected_team" id="selected_team_input">
         <div class="card">
             <?php
                 try{
+                    //create the table
                     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
                     $stmt = $pdo->prepare("CALL get_premier_league()");
                     $stmt->execute();
@@ -158,26 +160,23 @@
                     echo "Error: Returning teams" . $e->getMessage();
                 }            
             ?>
-            <button type ="submit" name="selectteam" class="btn">Select team</button>
+            
+            <button type="submit" name="next" class="btn">Next MatchDay</button>
 
         </div>
-
         <div>
             <?php
-                
+            //init the fixtures
                 foreach ($_SESSION["season"] as $matchday => $fixtures) {
-                echo "<h3>Matchday " . $matchday . "</h3>";
-                echo "<ul>";
-                foreach ($fixtures as $game) {
-                    echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
-                }
+                    echo "<h3>Matchday " . $matchday . "</h3>";
+                    echo "<ul>";
+                    foreach ($fixtures as $game) {
+                        echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
+                    }
                 echo "</ul>";
-            }
-
-            //echo "Total teams " . $totalTeams ."";
+                }
             ?>
-        </div>
-        
+        </div>    
     </form>
     
     <script>

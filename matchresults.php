@@ -44,6 +44,6 @@
         }
     }
 
-    getMatchResults();
+    //getMatchResults();
 
 ?>
