@@ -1,8 +1,7 @@
 <?php
     include("database.php"); //these get executed no matter what when you enter or refresh the page
     include("mechanic.php");
-    //include("matchresults.php");
-
+    
     session_start();
 
     require_once("fixturescalc.php");
@@ -41,8 +40,8 @@
         die("". $e->getMessage());
     }
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["selected_team"])) {
-        $selectedteam = $_POST["selected_team"];
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["selected_team"])) {
+        $selectedteam = trim($_POST["selected_team"]);
         
         try{
 
