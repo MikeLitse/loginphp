@@ -2,8 +2,6 @@
     include("database.php");
     function calcResult($matchesa,$matchesb){
         //last 5 matches matchesa and matchesb
-        
-
         //form calculated based on 5 last matches
         $forma=rand(50+$matchesa*5,100)/100;
         echo "Forma: " . $forma . "<br>";

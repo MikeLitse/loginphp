@@ -41,7 +41,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["selected_team"])) {
-        $selectedteam = trim($_POST["selected_team"]);
+        $selectedteam = trim($_POST["selected_team"]);//trims the sides of the String so no spaces
         
         try{
 
