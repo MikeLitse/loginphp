@@ -151,6 +151,25 @@
         <div>
             <button type ="submit" name="selectteam">Select team</button>
         </div>
+
+        <div>
+            <?php
+                include("fixturescalc.php");
+                $season= getFixtures();
+
+
+                foreach ($season as $matchday => $fixtures) {
+                echo "<h3>Matchday " . $matchday . "</h3>";
+                echo "<ul>";
+                foreach ($fixtures as $game) {
+                    echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
+                }
+                echo "</ul>";
+            }
+
+            //echo "Total teams " . $totalTeams ."";
+            ?>
+        </div>
         
     </form>
     
