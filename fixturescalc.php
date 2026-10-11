@@ -24,7 +24,7 @@
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
-            $stmt = $pdo->prepare("SELECT * FROM matches");
+            $stmt = $pdo->prepare("CALL get_premier_league()");
 
             $stmt->execute([]);
 
@@ -100,18 +100,7 @@
                     ];
                 }
             }
-            /*
-            foreach ($season as $matchday => $fixtures) {
-                echo "<h3>Matchday " . $matchday . "</h3>";
-                echo "<ul>";
-                foreach ($fixtures as $game) {
-                    echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
-                }
-                echo "</ul>";
-            }
-            */
-            //echo "Total teams " . $totalTeams ."";
-
+            
             return $season;
             
 

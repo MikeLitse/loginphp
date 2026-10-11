@@ -1,26 +1,49 @@
 <?php 
-    require_once("fixturescalc.php");
+    require_once("fixturescalc.php"); //matches table
     require_once("mechanic.php");
+    
 
     function getMatchResults(){
-        
+        include("database.php");
+    
         $season=getFixtures();
         $matchday=1;
+
+        try{
+            $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+
+            $stmt = $pdo->prepare("CALL update_matches(:result,:home,:away)");
+
+        }catch(Exception $e){
+            echo "". $e->getMessage();
+        }
         foreach ($season[$matchday] as $game) {
-            $home = htmlspecialchars($game["home"]);
-            $away = htmlspecialchars($game["away"]);
+            $home = $game["home"];
+            $away = $game["away"];
 
             echo "${home} <br>";
             echo "${away} <br>";
             $matchesa=0;
             $matchesb= 0;
-            calcResult($matchesa,$matchesb);
+            $result=calcResult($matchesa,$matchesb);
             
             echo"<br>";
 
+            try{
+                
+                $stmt->execute([
+                    "result" => $result,
+                    "home"   => $home,
+                    "away"   => $away
+                ]);
+                while ($stmt->nextRowset()) {}
+                $stmt-> closeCursor();
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }
         }
-
     }
 
     getMatchResults();
+
 ?>

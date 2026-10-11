@@ -6,7 +6,16 @@
 
     session_start();
 
-    $_SESSION["matchday"] = 1;
+    require_once("fixturescalc.php");
+    if(!isset($_SESSION["season"])){
+        $_SESSION["season"]= getFixtures(); //they get a value only one time
+    }
+    if(!isset($_SESSION["season"])){
+        $_SESSION["season"]= getFixtures(); //they get a value only one time
+    }
+    
+    //$_SESSION["matchday"] = 1;
+    
 
     if (!isset($_SESSION["username"])){
         die("user is not logged in");
@@ -155,11 +164,8 @@
 
         <div>
             <?php
-                include("fixturescalc.php");
-                $season= getFixtures();
-
-
-                foreach ($season as $matchday => $fixtures) {
+                
+                foreach ($_SESSION["season"] as $matchday => $fixtures) {
                 echo "<h3>Matchday " . $matchday . "</h3>";
                 echo "<ul>";
                 foreach ($fixtures as $game) {
