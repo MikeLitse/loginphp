@@ -6,6 +6,8 @@
 
     session_start();
 
+    $_SESSION["matchday"] = 1;
+
     if (!isset($_SESSION["username"])){
         die("user is not logged in");
     }else{
@@ -147,9 +149,8 @@
                     echo "Error: Returning teams" . $e->getMessage();
                 }            
             ?>
-        </div>
-        <div>
-            <button type ="submit" name="selectteam">Select team</button>
+            <button type ="submit" name="selectteam" class="btn">Select team</button>
+
         </div>
 
         <div>

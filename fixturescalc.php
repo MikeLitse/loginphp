@@ -1,7 +1,22 @@
 <?php 
     //round robin algorithm
     //there is no way one team doesnt play 2 matches at home 
+    //associative array multi dimensions (from 1 to 38 matchdays index)
+    /*10 matches for each day
+    $season[1]=> [
+        ['home' => 'Team A' , 'away' => 'Team B'],
+        ['home' => 'Team A' , 'away' => 'Team B']
+        ['home' => 'Team A' , 'away' => 'Team B']
+        ...   
+    ]
 
+    $season[2]=> [
+        ['home' => 'Team A' , 'away' => 'Team B'],
+        ['home' => 'Team A' , 'away' => 'Team B']
+        ['home' => 'Team A' , 'away' => 'Team B']
+        ...   
+    ]
+    */
     function getFixtures(){
 
         include("database.php");    

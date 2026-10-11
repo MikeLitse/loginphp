@@ -1,9 +1,8 @@
 <?php 
     include("database.php");
-    function calcResult(){
-        //last 5 matches
-        $matchesa = 2;
-        $matchesb = 2; 
+    function calcResult($matchesa,$matchesb){
+        //last 5 matches matchesa and matchesb
+        
 
         //form calculated based on 5 last matches
         $forma=rand(50+$matchesa*5,100)/100;
@@ -30,25 +29,25 @@
             echo "Cond: " . $cond ."<br>";
             if($cond<=$finalforma){
                 echo "P1 wins " . "<br>" ;
-                return "P1";
+                return "1";
             }else if($cond>100-$finalformb){
                 echo "P2 wins " . "<br>";
-                return "P2";
+                return "2";
             }else{
                 echo "Draw ". "<br>";
-                return "DRAW";
+                return "X";
             }
         }else{
             echo "Cond: " . $cond ."<br>";
             if($cond<=$finalformb){
                 echo "P2 wins " . "<br>" ;
-                return "P2";
+                return "2";
             }else if($cond>100-$finalforma){
                 echo "P1 wins " . "<br>";
-                return "P1";
+                return "1";
             }else{
                 echo "Draw ". "<br>";
-                return "DRAW";
+                return "X";
             }
         }
     }
