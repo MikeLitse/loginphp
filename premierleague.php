@@ -38,6 +38,8 @@
         exit();
     }
 
+    
+
     try{
 
         $pdo = new PDO($dsn, $db_user, $db_pass, $options);
@@ -60,12 +62,23 @@
         die("Couldnt get user". $e->getMessage());
     }
 
+    //reset the table on click
+    if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset"])){
+        
+        $_SESSION["matchday"] = 1;
+        $stmt= $pdo->prepare("CALL reset_table()");
+
+        $stmt->execute([]);
+
+        $stmt->closeCursor();
+
+    }
+
+
     if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["selected_team"])) {
         $selectedteam = trim($_POST["selected_team"]);//trims the sides of the String so no spaces
         
         try{
-
-            //$pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
             $stmt = $pdo->prepare("UPDATE users SET team=:selectedteam WHERE username=:username");
 
