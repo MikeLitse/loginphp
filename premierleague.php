@@ -18,6 +18,25 @@
         $username = $_SESSION["username"];
     }
 
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["next"])) {
+        $matchday = $_SESSION["matchday"];
+
+        if ($matchday >= 1 && $matchday <= 38) {
+            require_once("matchresults.php");
+            getMatchResults($matchday);
+
+            if ($matchday < 38) {
+                $_SESSION["matchday"] = $matchday + 1;
+            } else {
+                $_SESSION["matchday"] = 38;
+                $_SESSION["season_finished"] = true;
+            }
+        }
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
     try{
 
         $pdo = new PDO($dsn, $db_user, $db_pass, $options);
@@ -45,7 +64,7 @@
         
         try{
 
-            $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+            //$pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
             $stmt = $pdo->prepare("UPDATE users SET team=:selectedteam WHERE username=:username");
 
@@ -61,13 +80,13 @@
         }
     }
 
-    if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["next"])) {
+    /*if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["next"])) {
         require_once("matchresults.php");
-        getMatchResults();
+        getMatchResults($matchday);
 
         header("Location: " . $_SERVER['PHP_SELF']); //redirect to the same page
         exit();
-    }
+    }*/
 
 ?>
 
@@ -166,6 +185,7 @@
         <div>
             <?php
             //init the fixtures
+            echo "Matchday: " . $_SESSION["matchday"];
                 foreach ($_SESSION["season"] as $matchday => $fixtures) {
                     echo "<h3>Matchday " . $matchday . "</h3>";
                     echo "<ul>";

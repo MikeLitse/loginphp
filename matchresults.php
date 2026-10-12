@@ -3,11 +3,11 @@
     require_once("mechanic.php");
     
 
-    function getMatchResults(){
+    function getMatchResults($matchday){
         include("database.php");
     
         $season=getFixtures();
-        $matchday=1;
+        //$matchday=1; // change this
 
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);

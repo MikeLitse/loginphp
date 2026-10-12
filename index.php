@@ -34,6 +34,15 @@
                         $_SESSION["msg"]=$logmsg;
                         $_SESSION["username"] = $username;
                         $_SESSION["password"] = $password;
+
+                        $_SESSION["matchday"] = 1;
+
+                        //RESET TABLE
+                        $stmt= $pdo->prepare("CALL reset_table()");
+                        $stmt->execute([]);
+
+                        $stmt->closeCursor();
+
                         //head to session
                         header("Location: homepage.php");
 
@@ -45,6 +54,8 @@
                 }
 
             $stmt->closeCursor();
+            
+            
             }catch (PDOException $e) {
                 echo "Error: Returning users" . $e->getMessage();
             }
