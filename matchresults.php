@@ -3,12 +3,11 @@
     require_once("mechanic.php");
     
 
-    function getMatchResults($matchday){
+    function getMatchResults($matchday,$season){
         include("database.php");
     
-        $season=getFixtures();
-        //$matchday=1; // change this
-
+        //$season=getFixtures();
+        
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
@@ -29,17 +28,18 @@
             
             echo"<br>";
 
-            try{
-                
-                $stmt->execute([
-                    "result" => $result,
-                    "home"   => $home,
-                    "away"   => $away
-                ]);
-                while ($stmt->nextRowset()) {}
-                $stmt-> closeCursor();
-            }catch(Exception $e){
-                echo $e->getMessage();
+            if($matchday<=38){
+                try{
+                    $stmt->execute([
+                        "result" => $result,
+                        "home"   => $home,
+                        "away"   => $away
+                    ]);
+                    while ($stmt->nextRowset()) {}
+                    $stmt-> closeCursor();
+                }catch(Exception $e){
+                    echo $e->getMessage();
+                }
             }
         }
     }

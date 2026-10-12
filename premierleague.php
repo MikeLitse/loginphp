@@ -20,16 +20,17 @@
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["next"])) {
         $matchday = $_SESSION["matchday"];
+        $season = $_SESSION["season"];
 
         if ($matchday >= 1 && $matchday <= 38) {
             require_once("matchresults.php");
-            getMatchResults($matchday);
+            getMatchResults($matchday,$season);
 
             if ($matchday < 38) {
                 $_SESSION["matchday"] = $matchday + 1;
             } else {
                 $_SESSION["matchday"] = 38;
-                $_SESSION["season_finished"] = true;
+                //$_SESSION["season_finished"] = true;
             }
         }
 
@@ -56,7 +57,7 @@
         $stmt->closeCursor();
 
     }catch(PDOException $e){
-        die("". $e->getMessage());
+        die("Couldnt get user". $e->getMessage());
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["selected_team"])) {
@@ -79,14 +80,6 @@
             echo $e->getMessage();
         }
     }
-
-    /*if($_SERVER["REQUEST_METHOD"]==="POST" && isset($_POST["next"])) {
-        require_once("matchresults.php");
-        getMatchResults($matchday);
-
-        header("Location: " . $_SERVER['PHP_SELF']); //redirect to the same page
-        exit();
-    }*/
 
 ?>
 
@@ -176,10 +169,11 @@
 
                 }catch (PDOException $e) {
                     echo "Error: Returning teams" . $e->getMessage();
-                }            
+                } 
             ?>
             
             <button type="submit" name="next" class="btn">Next MatchDay</button>
+            <button type="submit" name="reset" class="btn">Reset League</button>
 
         </div>
         <div>
