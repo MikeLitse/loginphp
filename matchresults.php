@@ -1,51 +1,42 @@
 <?php 
-require_once("fixturescalc.php");
-require_once("mechanic.php");
+    require_once("fixturescalc.php"); //matches table
+    require_once("mechanic.php"); 
+    function getMatchResults($matchday,$season){
+        include("database.php");
+    
+        try{
+            $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
-function getMatchResults($matchday, $season) {
-    if (!isset($season[$matchday]) || $matchday > 38) {
-        return;
-    }
+            $stmt = $pdo->prepare("CALL update_matches(:result,:home,:away)");
 
-    include("database.php");
-
-    try {
-        $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-        $stmt = $pdo->prepare("CALL update_matches(:result, :home, :away)");
-
+        }catch(Exception $e){
+            echo "". $e->getMessage();
+        }
         foreach ($season[$matchday] as $game) {
             $home = $game["home"];
             $away = $game["away"];
 
-            $matchesa = 0;
-            $matchesb = 0;
-            $matchresult = calcResult($matchesa, $matchesb);
+            echo "${home} <br>";
+            echo "${away} <br>";
+            $matchesa=0;
+            $matchesb= 0;
+            $result=calcResult($matchesa,$matchesb);
+            
+            echo"<br>";
 
-            if ($matchresult[0] > $matchresult[1]) {
-                $result = "1";
-            } elseif ($matchresult[0] < $matchresult[1]) {
-                $result = "2";
-            } else {
-                $result = "X";
-            }
-
-            try {
-                $stmt->execute([
-                    "result" => $result,
-                    "home"   => $home,
-                    "away"   => $away
-                ]);
-
-                while ($stmt->nextRowset()) {} // Clear stored procedure buffers
-            } catch (Exception $e) {
-                // Silently write to error log so no output breaks HTTP headers
-                error_log("Query failed for match {$home} vs {$away}: " . $e->getMessage());
+            if($matchday<=38){
+                try{
+                    $stmt->execute([
+                        "result" => $result,
+                        "home"   => $home,
+                        "away"   => $away
+                    ]);
+                    while ($stmt->nextRowset()) {}
+                    $stmt-> closeCursor();
+                }catch(Exception $e){
+                    echo $e->getMessage();
+                }
             }
         }
-        
-        $stmt->closeCursor();
-
-    } catch (PDOException $e) {
-        error_log("Connection failed in getMatchResults: " . $e->getMessage());
     }
-}
+?>

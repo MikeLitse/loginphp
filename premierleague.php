@@ -19,26 +19,25 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["next"])) {
-        $matchday = $_SESSION["matchday"];
-        $season = $_SESSION["season"];
+        if($_SESSION["season_finished"] != true){
+            $matchday = $_SESSION["matchday"];
+            $season = $_SESSION["season"];
 
-        if ($matchday >= 1 && $matchday <= 38) {
-            require_once("matchresults.php");
-            getMatchResults($matchday,$season);
+            if ($matchday >= 1 && $matchday <= 38) {
+                require_once("matchresults.php");
+                getMatchResults($matchday,$season);
 
-            if ($matchday < 38) {
-                $_SESSION["matchday"] = $matchday + 1;
-            } else {
-                $_SESSION["matchday"] = 38;
-                //$_SESSION["season_finished"] = true;
+                if ($matchday < 38) {
+                    $_SESSION["matchday"] = $matchday + 1;
+                }else{
+                    $_SESSION["matchday"] = 38;
+                    $_SESSION["season_finished"] = true;
+                }
             }
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         }
-
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
     }
-
-    
 
     try{
 
@@ -191,18 +190,22 @@
         </div>
         <div>
             <?php
-            //init the fixtures
-            echo "Matchday: " . $_SESSION["matchday"];
-                foreach ($_SESSION["season"] as $matchday => $fixtures) {
-                    echo "<h3>Matchday " . $matchday . "</h3>";
-                    echo "<ul>";
-                    foreach ($fixtures as $game) {
-                        echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
-                    }
-                echo "</ul>";
+            $currentMatchday = $_SESSION["matchday"] ?? null;
+
+            if ($currentMatchday !== null && isset($_SESSION["season"][$currentMatchday])) {
+                $fixtures = $_SESSION["season"][$currentMatchday];
+
+                echo "<h3>Matchday " . htmlspecialchars($currentMatchday) . "</h3>";
+                echo "<ul>";
+                foreach ($fixtures as $game) {
+                    echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
                 }
+                echo "</ul>";
+            } else {
+                echo "<p>No fixtures found for the current matchday.</p>";
+            }
             ?>
-        </div>    
+        </div>
     </form>
     
     <script>

@@ -104,7 +104,7 @@
             return $season;
             
         }catch(PDOException $e){
-            echo $e->getMessage();
+            echo "Error on fixturescalc()" . $e->getMessage();
         }
     }
 
