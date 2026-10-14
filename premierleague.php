@@ -183,7 +183,7 @@
                     echo "Error: Returning teams" . $e->getMessage();
                 } 
             ?>
-            
+            <button type="submit" name="results" class="btn">Show Results</button>
             <button type="submit" name="next" class="btn">Next MatchDay</button>
             <button type="submit" name="reset" class="btn">Reset League</button>
 
