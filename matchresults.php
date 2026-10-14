@@ -21,7 +21,6 @@
                 'homescore' => $result[0],
                 'awayscore' => $result[1]
             ];
-
         }
 
         echo "<ul>";
@@ -49,13 +48,7 @@
                 $away = $game["away"];
                 $homescore = $game["homescore"];
                 $awayscore = $game["awayscore"];
-                if($homescore > $awayscore){
-                    $result="1";
-                }else if ($homescore < $awayscore){
-                    $result= "2";
-                }else{
-                    $result= "X";
-                }  
+                
                 $stmt->execute([
                         "home"   => $home,
                         "away"   => $away,
@@ -72,9 +65,9 @@
         }
     }
     
-    $season=getFixtures();
-    $matchresultstable=getMatchResults(1,$season);
-    updateMatches($matchresultstable);
+    //$season=getFixtures();
+    //$matchresultstable=getMatchResults(1,$season);
+    //updateMatches($matchresultstable);
 
     /*matchResultsTable
     [

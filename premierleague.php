@@ -18,25 +18,24 @@
         $username = $_SESSION["username"];
     }
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["next"])) {
-        if($_SESSION["season_finished"] != true){
-            $matchday = $_SESSION["matchday"];
-            $season = $_SESSION["season"];
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["showres"])) {
+        $matchday = $_SESSION["matchday"] ?? 1;
 
-            if ($matchday >= 1 && $matchday <= 38) {
-                require_once("matchresults.php");
-                getMatchResults($matchday,$season);
+        if ($matchday >= 1 && $matchday <= 38) {
+            require_once("matchresults.php");
 
-                if ($matchday < 38) {
-                    $_SESSION["matchday"] = $matchday + 1;
-                }else{
-                    $_SESSION["matchday"] = 38;
-                    $_SESSION["season_finished"] = true;
-                }
-            }
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
+            // 1. Generate the results ONCE and keep in memory
+            $results = getMatchResults($matchday, $_SESSION["season"]);
+
+            // 2. Save this exact table in the session for the HTML display
+            $_SESSION["matchresultstable"] = $results;
+
+            // 3. Update the database using the EXACT same numbers
+            updateMatches($results);
         }
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
 
     try{
@@ -183,35 +182,24 @@
                     echo "Error: Returning teams" . $e->getMessage();
                 } 
             ?>
-            <button type="submit" name="results" class="btn">Show Results</button>
+            <button type="submit" name="showres" class="btn">Show Results</button>
             <button type="submit" name="next" class="btn">Next MatchDay</button>
             <button type="submit" name="reset" class="btn">Reset League</button>
 
         </div>
         <div>
-            <?php
-                $currentMatchday = $_SESSION["matchday"] ?? null;
-
-                
-                if ($currentMatchday !== null && isset($_SESSION["season"][$currentMatchday])) {
-                    $fixtures = $_SESSION["season"][$currentMatchday];
-
-                    echo "<h3>Matchday " . htmlspecialchars($currentMatchday) . "</h3>";
-                    echo "<ul>";
-                    foreach ($fixtures as $game) {
-                        echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
-                        if(isset($_POST["results"])) {
-                            $homeScore = $game['home_score'] ?? $game['homeScore'] ?? 0;
-                            $awayScore = $game['away_score'] ?? $game['awayScore'] ?? 0;
-
-                            echo " &mdash; <strong>{$homeScore} - {$awayScore}</strong>";
-                        }
-                    }
-                    echo "</ul>";
-                } else {
-                    echo "<p>No fixtures found for the current matchday.</p>";
-                }
-            ?>
+            <?php if (!empty($_SESSION["matchresultstable"])): ?>
+                <h3>Matchday <?= htmlspecialchars($_SESSION["matchday"] ?? 1) ?> Results</h3>
+                <ul>
+                    <?php foreach ($_SESSION["matchresultstable"] as $game): ?>
+                        <li>
+                            <strong><?= htmlspecialchars($game['home']) ?></strong> 
+                            <?= htmlspecialchars($game['homescore']) ?> - <?= htmlspecialchars($game['awayscore']) ?> 
+                            <strong><?= htmlspecialchars($game['away']) ?></strong>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
         </div>
     </form>
     
