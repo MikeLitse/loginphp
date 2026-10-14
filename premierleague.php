@@ -190,20 +190,27 @@
         </div>
         <div>
             <?php
-            $currentMatchday = $_SESSION["matchday"] ?? null;
+                $currentMatchday = $_SESSION["matchday"] ?? null;
 
-            if ($currentMatchday !== null && isset($_SESSION["season"][$currentMatchday])) {
-                $fixtures = $_SESSION["season"][$currentMatchday];
+                
+                if ($currentMatchday !== null && isset($_SESSION["season"][$currentMatchday])) {
+                    $fixtures = $_SESSION["season"][$currentMatchday];
 
-                echo "<h3>Matchday " . htmlspecialchars($currentMatchday) . "</h3>";
-                echo "<ul>";
-                foreach ($fixtures as $game) {
-                    echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
+                    echo "<h3>Matchday " . htmlspecialchars($currentMatchday) . "</h3>";
+                    echo "<ul>";
+                    foreach ($fixtures as $game) {
+                        echo "<li><strong>" . htmlspecialchars($game['home']) . "</strong> vs " . htmlspecialchars($game['away']) . "</li>";
+                        if(isset($_POST["results"])) {
+                            $homeScore = $game['home_score'] ?? $game['homeScore'] ?? 0;
+                            $awayScore = $game['away_score'] ?? $game['awayScore'] ?? 0;
+
+                            echo " &mdash; <strong>{$homeScore} - {$awayScore}</strong>";
+                        }
+                    }
+                    echo "</ul>";
+                } else {
+                    echo "<p>No fixtures found for the current matchday.</p>";
                 }
-                echo "</ul>";
-            } else {
-                echo "<p>No fixtures found for the current matchday.</p>";
-            }
             ?>
         </div>
     </form>

@@ -19,7 +19,7 @@
     */
     function getFixtures(){
 
-        require_once("database.php");    
+        include("database.php");    
 
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
