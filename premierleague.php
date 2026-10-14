@@ -6,7 +6,7 @@
 
     require_once("fixturescalc.php");
     if(!isset($_SESSION["season"])){
-        $_SESSION["season"]= getFixtures(); //they get a value only one time
+        $_SESSION["season"]= getFixtures(); //they get a value only one time yes
     }
     if(!isset($_SESSION["matchday"])){
         $_SESSION["matchday"]= 1; //they get a value only one time
