@@ -1,42 +1,97 @@
 <?php 
     require_once("fixturescalc.php"); //matches table
     require_once("mechanic.php"); 
-    function getMatchResults($matchday,$season){
+    function getMatchResults($matchday, $season) {
+        if (!isset($season[$matchday])) {
+            echo "No matches found for Matchday " . htmlspecialchars($matchday);
+            return;
+        }
+
+        echo "<h3>Matchday " . htmlspecialchars($matchday) . " Results:</h3>";
+        echo "<ul>";
+
+        $matchResultsTable= [];
+
+        foreach ($season[$matchday] as $game) {
+            $result = calcResult(0, 0); // $result[0] is home goals, $result[1] is away goals
+
+            $matchResultsTable[] = [
+                'home'       => $game['home'],
+                'away'       => $game['away'],
+                'homescore' => $result[0],
+                'awayscore' => $result[1]
+            ];
+
+        }
+
+        echo "<ul>";
+        foreach ($matchResultsTable as $game) {
+            echo "<li>";
+            echo "<strong>" . htmlspecialchars($game['home']) . "</strong> ";
+            echo htmlspecialchars($game['homescore']) . " - " . htmlspecialchars($game['awayscore']) . " ";
+            echo "<strong>" . htmlspecialchars($game['away']) . "</strong>";
+            echo "</li>";
+        }
+        
+        return $matchResultsTable;
+
+    }
+
+    function updateMatches($matchResultsTable){
         include("database.php");
-    
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
             $stmt = $pdo->prepare("CALL update_matches(:result,:home,:away)");
 
-        }catch(Exception $e){
-            echo "". $e->getMessage();
-        }
-        foreach ($season[$matchday] as $game) {
-            $home = $game["home"];
-            $away = $game["away"];
-
-            echo "${home} <br>";
-            echo "${away} <br>";
-            $matchesa=0;
-            $matchesb= 0;
-            $result=calcResult($matchesa,$matchesb);
-            
-            echo"<br>";
-
-            if($matchday<=38){
-                try{
-                    $stmt->execute([
+            foreach($matchResultsTable as $game){
+                $home = $game["home"];
+                $away = $game["away"];
+                $homescore = $game["homescore"];
+                $awayscore = $game["awayscore"];
+                if($homescore > $awayscore){
+                    $result="1";
+                }else if ($homescore < $awayscore){
+                    $result= "2";
+                }else{
+                    $result= "X";
+                }  
+                $stmt->execute([
                         "result" => $result,
                         "home"   => $home,
                         "away"   => $away
-                    ]);
-                    while ($stmt->nextRowset()) {}
-                    $stmt-> closeCursor();
-                }catch(Exception $e){
-                    echo $e->getMessage();
-                }
+                ]);
+                while ($stmt->nextRowset()) {}
+                $stmt-> closeCursor();
+
+                echo"insertion success";
             }
+        }catch(Exception $e){
+            echo "Error updating the table". $e->getMessage();
         }
     }
+    
+    $season=getFixtures();
+    $matchresultstable=getMatchResults(1,$season);
+    updateMatches($matchresultstable);
+
+    /*matchResultsTable
+    [
+    0 => [
+        'home'       => 'AFC Bournemouth',
+        'away'       => 'Tottenham Hotspur',
+        'home_score' => 2,
+        'away_score' => 1
+    ],
+    1 => [
+        'home'       => 'Everton FC',
+        'away'       => 'Ipswich Town',
+        'home_score' => 0,
+        'away_score' => 0
+    ],
+    
+    ]
+    */
+
 ?>
+
