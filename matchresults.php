@@ -42,7 +42,7 @@
         try{
             $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 
-            $stmt = $pdo->prepare("CALL update_matches(:result,:home,:away)");
+            $stmt = $pdo->prepare("CALL update_matches(:home,:away,:homescore,:awayscore)");
 
             foreach($matchResultsTable as $game){
                 $home = $game["home"];
@@ -57,9 +57,10 @@
                     $result= "X";
                 }  
                 $stmt->execute([
-                        "result" => $result,
                         "home"   => $home,
-                        "away"   => $away
+                        "away"   => $away,
+                        "homescore" =>$homescore,
+                        "awayscore"=>$awayscore
                 ]);
                 while ($stmt->nextRowset()) {}
                 $stmt-> closeCursor();
