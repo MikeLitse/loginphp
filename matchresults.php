@@ -65,10 +65,6 @@
         }
     }
     
-    //$season=getFixtures();
-    //$matchresultstable=getMatchResults(1,$season);
-    //updateMatches($matchresultstable);
-
     /*matchResultsTable
     [
     0 => [
